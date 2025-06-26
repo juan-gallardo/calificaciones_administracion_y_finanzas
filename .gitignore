@@ -1,0 +1,2 @@
+# Ignorar la carpeta de secretos de Streamlit (si la vuelves a usar)
+.streamlit/
