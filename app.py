@@ -95,10 +95,23 @@ def load_data_from_supabase():
         
         # Limpia los datos y convierte las columnas clave a string
         if not df.empty:
-            # 1. Convertir a Int64 (entero que acepta nulos) para eliminar el ".0"
-            # (p.ej. 635442.0 -> 635442)
-            df["Número de ID"] = df["Número de ID"].astype('Int64')
-            df["Número de ID"] = df["Número de ID"].astype(str).str.strip()
+            # 1. Convertimos la columna a texto (str) sin importar su tipo original
+            # (p.ej. 635442.0 -> "635442.0" o 635442 -> "635442")
+            df["Número de ID"] = df["Número de ID"].astype(str)
+            
+            # 2. Partimos el texto en el "." y nos quedamos con la primera parte
+            # (p.ej. "635442.0" -> "635442")
+            # (p.ej. "635442" -> "635442")
+            df["Número de ID"] = df["Número de ID"].str.split('.').str[0]
+            
+            # 3. Nos aseguramos de que no haya espacios
+            df["Número de ID"] = df["Número de ID"].str.strip()
+
+            # 4. Manejamos el caso de que el ID fuera nulo (se convierte en "None" o "nan")
+            # y lo reemplazamos por un string que no coincidirá con nada.
+            df["Número de ID"] = df["Número de ID"].replace(["None", "nan", "<NA>"], "")
+
+            # 5. Convertir el email (esto ya estaba bien)
             df["Dirección de correo"] = df["Dirección de correo"].astype(str).str.strip()
         
         return df
