@@ -109,7 +109,7 @@ df = load_data_from_supabase()
 # --- INICIO DE LÍNEAS DE DEBUG ---
 # Mostramos una tabla temporal para ver cómo quedaron los datos
 st.subheader("Debug: Revisión de datos (primeras 5 filas)")
-st.dataframe(df.info)
+st.dataframe(df.head())
 # --- FIN DE LÍNEAS DE DEBUG ---
 
 if df.empty:
