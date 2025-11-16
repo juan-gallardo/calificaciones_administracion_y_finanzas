@@ -95,11 +95,7 @@ def load_data_from_supabase():
         
         # Limpia los datos y convierte las columnas clave a string
         if not df.empty:
-            
-            # 1. Nos aseguramos de que no haya espacios
-            df["Número de ID"] = df["Número de ID"].str.strip()
-
-            # 2. Convertir el email a string y limpiar espacios
+            df["Número de ID"] = df["Número de ID"].astype(str).str.strip()
             df["Dirección de correo"] = df["Dirección de correo"].astype(str).str.strip()
         
         return df
