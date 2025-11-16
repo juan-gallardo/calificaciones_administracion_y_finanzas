@@ -122,6 +122,12 @@ def load_data_from_supabase():
 # --- Carga los datos en un DataFrame desde Supabase ---
 df = load_data_from_supabase()
 
+# --- INICIO DE LÍNEAS DE DEBUG ---
+# Mostramos una tabla temporal para ver cómo quedaron los datos
+st.subheader("Debug: Revisión de datos (primeras 5 filas)")
+st.dataframe(df.head())
+# --- FIN DE LÍNEAS DE DEBUG ---
+
 if df.empty:
     # Este mensaje solo se muestra si load_data devuelve un DataFrame vacío por un error de lectura
     st.info("No se pudieron cargar los datos desde Supabase. Por favor, verifica tu conexión y la tabla.")
