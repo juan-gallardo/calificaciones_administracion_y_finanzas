@@ -75,25 +75,28 @@ except Exception as e:
 def buscar_estudiante(search_term: str):
     """
     Búsqueda exacta por ID o email.
-    El email solo acepta diferencias en mayúsculas/minúsculas
-    y espacios alrededor (que se eliminan).
+    Email: case-insensitive, ignora espacios.
     No permite coincidencias parciales.
     """
     try:
-        # Limpiar espacios
+        # Limpia espacios
         search_term_clean = search_term.strip()
 
-        # Email se busca en minúsculas para que sea case-insensitive
-        search_term_email = search_term_clean.lower()
+        # Email: comparar siempre en minúsculas
+        email_clean = search_term_clean.lower()
 
-        response = supabase.table('calificaciones_administracion_y_finanzas_utn') \
-            .select("*") \
-            .or_(
-                f"\"Número de ID\".eq.{search_term_clean},"
-                f"\"Dirección de correo\".ilike.{search_term_email}"
-            ) \
-            .execute()
+        query = supabase.table('calificaciones_administracion_y_finanzas_utn').select("*")
 
+        # Si es número, buscar por ID
+        if search_term_clean.isdigit():
+            query = query.eq("Número de ID", search_term_clean)
+
+        # Si contiene @, buscar por email exacto (case-insensitive)
+        elif "@" in search_term_clean:
+            query = query.ilike("Dirección de correo", email_clean)
+
+        # Ejecutamos
+        response = query.execute()
         return pd.DataFrame(response.data)
 
     except Exception as e:
