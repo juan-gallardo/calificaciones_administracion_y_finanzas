@@ -74,13 +74,24 @@ except Exception as e:
 # --- Función optimizada para buscar en Supabase ---
 def buscar_estudiante(search_term: str):
     """
-    Busca un estudiante por número de ID o email directamente en Supabase.
-    Evita cargar miles de filas y hace la app mucho más rápida.
+    Búsqueda exacta por ID o email.
+    El email solo acepta diferencias en mayúsculas/minúsculas
+    y espacios alrededor (que se eliminan).
+    No permite coincidencias parciales.
     """
     try:
+        # Limpiar espacios
+        search_term_clean = search_term.strip()
+
+        # Email se busca en minúsculas para que sea case-insensitive
+        search_term_email = search_term_clean.lower()
+
         response = supabase.table('calificaciones_administracion_y_finanzas_utn') \
             .select("*") \
-            .or_(f"\"Número de ID\".eq.{search_term},\"Dirección de correo\".ilike.%{search_term}%") \
+            .or_(
+                f"\"Número de ID\".eq.{search_term_clean},"
+                f"\"Dirección de correo\".ilike.{search_term_email}"
+            ) \
             .execute()
 
         return pd.DataFrame(response.data)
