@@ -88,7 +88,7 @@ def load_data_from_supabase():
     """
     try:
         # Usamos el cliente Supabase globalmente
-        response = supabase.table('calificaciones_administracion_y_finanzas_utn').select('*').execute()
+        response = supabase.table('calificaciones_administracion_y_finanzas_utn').select('*').limit(2000).execute()
         
         # Supabase client retorna los datos en .data
         df = pd.DataFrame(response.data)
