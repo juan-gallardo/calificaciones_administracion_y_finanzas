@@ -67,8 +67,8 @@ load_dotenv()
 # Asegúrate de que estas variables estén definidas en tu archivo .env
 # SUPABASE_URL="https://your_project_ref.supabase.co"
 # SUPABASE_KEY="your_anon_public_key"
-url: str = st.secrets.get("supabase_url")
-key: str = st.secrets.get("supabase_key")
+url: str = os.getenv("SUPABASE_URL")
+key: str = os.getenv("SUPABASE_KEY")
 
 # --- Inicializar cliente Supabase fuera de la función cacheada ---
 # El cliente Supabase no es "cacheable" por Streamlit de forma directa.
