@@ -95,6 +95,9 @@ def load_data_from_supabase():
         
         # Limpia los datos y convierte las columnas clave a string
         if not df.empty:
+            # 1. Convertir a Int64 (entero que acepta nulos) para eliminar el ".0"
+            # (p.ej. 635442.0 -> 635442)
+            df["Número de ID"] = df["Número de ID"].astype('Int64')
             df["Número de ID"] = df["Número de ID"].astype(str).str.strip()
             df["Dirección de correo"] = df["Dirección de correo"].astype(str).str.strip()
         
@@ -174,13 +177,3 @@ st.markdown("---")
 
 st.image(logo_path, width=250)
 st.markdown("Aplicación desarrollada para la cátedra de Principios en administración y finanzas")
-
-
-
-
-
-
-
-
-
-
