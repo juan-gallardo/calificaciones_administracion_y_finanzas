@@ -143,6 +143,11 @@ if search_term:
                 f"¡Hola, {nombre}! Te esperamos en la instancia de examen final 💪. "
                 "Hacenos todas las consultas que necesites 🤗"
             )
+        elif condicion == "Recursa":
+            st.error(
+                f"¡Hola, {nombre}! Lamentablemente no alcanzaste los objetivos mínimos para regularizar. "
+                "¡No te desanimes! Te esperamos el próximo cuatrimestre para volver a intentarlo con todo 💪."
+            )
 
     else:
         st.warning("No se encontraron resultados para el ID o email ingresado.")
